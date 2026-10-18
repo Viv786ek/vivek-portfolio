@@ -34,7 +34,7 @@ Name searches ("Vivek Kumar Srivastava", "Vivek Srivastava AI engineer") are cov
 
 ## After deployment
 
-1. The canonical URL is https://viveksde.github.io (set in the deploy workflow). If you add a custom domain later, update `NEXT_PUBLIC_SITE_URL` there.
+1. The canonical URL is https://viveksrivastavasde.github.io (set in the deploy workflow). If you add a custom domain later, update `NEXT_PUBLIC_SITE_URL` there.
 2. In Google Search Console, verify the domain and submit `/sitemap.xml`.
 3. Run Google's Rich Results Test on `/` (Person, FAQ) and on a blog post (BlogPosting).
 4. Put the portfolio URL on LinkedIn (Contact info and Featured), the GitHub profile README and bio, and every resume. These backlinks matter most for ranking a personal site.

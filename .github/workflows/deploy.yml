@@ -32,7 +32,8 @@ jobs:
       - name: Build static site
         run: npm run build:static
         env:
-          NEXT_PUBLIC_SITE_URL: https://viveksde.github.io
+          # Follows the repo owner (https://<owner>.github.io), so no edit is needed if the owner changes
+          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io
           # Raises the GitHub API rate limit for the dashboard data
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Optional analytics — add as a repository variable to enable

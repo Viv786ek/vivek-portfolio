@@ -1,6 +1,6 @@
 # Vivek Kumar Srivastava — Portfolio
 
-**Live:** https://viveksde.github.io
+**Live:** https://viveksrivastavasde.github.io
 
 AI Engineer & Full-Stack Engineer portfolio. Next.js 16 · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion · Claude API · Vercel.
 
@@ -77,7 +77,7 @@ All of them are optional, and the site works with none set.
 
 | Variable | Purpose |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | Canonical URL (sitemap, OG, JSON-LD). Defaults to https://viveksde.github.io |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL (sitemap, OG, JSON-LD). Defaults to https://viveksrivastavasde.github.io |
 | `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | AI assistant via Claude (default model `claude-opus-5-5`, low effort) |
 | `OPENAI_API_KEY`, `OPENAI_MODEL` | Fallback provider if no Anthropic key |
 | `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | Contact form email delivery |
@@ -88,11 +88,11 @@ All of them are optional, and the site works with none set.
 
 ## Deployment: GitHub Pages (current)
 
-The site deploys automatically to **https://viveksde.github.io** on every push to `main`, and rebuilds daily at 03:00 UTC so GitHub stats stay fresh ([workflow](.github/workflows/deploy.yml)).
+The site deploys automatically to **https://viveksrivastavasde.github.io** on every push to `main`, and rebuilds daily at 03:00 UTC so GitHub stats stay fresh ([workflow](.github/workflows/deploy.yml)).
 
 - The build runs `npm run build:static` (`STATIC_EXPORT=1`), which writes a fully static site to `out/`.
 - On Pages there's no server, so the AI assistant answers **in the browser**, choosing the most relevant sentences from your profile. It never invents anything. The contact form opens a pre-filled email.
-- The repo must be named `<username>.github.io` to serve at the root domain. In repo Settings → Pages, Source must be **GitHub Actions**.
+- The repo must be named `<owner>.github.io` (here: `viveksrivastavasde.github.io`, owned by the free organization *viveksrivastavasde*) to serve at the root domain. In repo Settings → Pages, Source must be **GitHub Actions**.
 - To test locally: `npm run build:static && npx serve out`.
 
 ## Alternative: Vercel (full AI with Claude)

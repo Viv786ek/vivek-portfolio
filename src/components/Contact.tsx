@@ -68,7 +68,7 @@ export function Contact() {
           {[
             { href: `mailto:${person.email}`, icon: <Mail />, label: "Email", value: person.email },
             { href: person.socials.linkedin, icon: <LinkedInIcon />, label: "LinkedIn", value: "in/viveksde" },
-            { href: person.socials.github, icon: <GitHubIcon />, label: "GitHub", value: "@viveksde" },
+            { href: person.socials.github, icon: <GitHubIcon />, label: "GitHub", value: "@Viv786ek" },
           ].map((c) => (
             <a
               key={c.label}
