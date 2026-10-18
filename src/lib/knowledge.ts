@@ -103,3 +103,59 @@ export function retrieve(query: string, k = 5): Chunk[] {
   if (!top.some((c) => c.id === "summary")) top.unshift(chunks[0]);
   return top.slice(0, k);
 }
+
+const OVERVIEW = /\b(summary|overview|about|introduce|who is|tell me|30.second|developer|candidate|profile)\b/i;
+
+/**
+ * Extractive answer with no LLM: picks the sentences that best match the
+ * question from the retrieved chunks. Used on the static (GitHub Pages) build
+ * and as a fallback on the server. It can only quote the profile, so it never
+ * invents anything.
+ */
+export function localAnswer(question: string, chunks: Chunk[]) {
+  const q = new Set(tokenize(question));
+  const relevant = chunks.filter((c) => c.id !== "summary");
+
+  // Broad "tell me about him" questions get a crafted overview.
+  if (!relevant.length || (OVERVIEW.test(question) && q.size <= 3)) {
+    return [
+      `**${person.name}** — ${person.role}.`,
+      person.positioning,
+      `Highlights: ${metrics.slice(0, 4).map((m) => `**${m.value}** ${m.label}`).join(" · ")}.`,
+      `Most recently ${experience[0].role} at ${experience[0].company}; before that Concentrix Catalyst (T-Mobile IAM platform) and BridgeNext.`,
+      `${person.availability}.`,
+    ].join("\n\n");
+  }
+
+  // FAQ matches already hold a complete, reviewed answer: return it whole.
+  const faqHit = relevant[0]?.id.startsWith("faq-") ? faq.find((f) => relevant[0].title === f.q) : undefined;
+  if (faqHit) return `${faqHit.a}
+
+Anything else? Email ${person.email}.`;
+
+  type S = { text: string; title: string; score: number; hits: number; order: number };
+  const sentences: S[] = [];
+  relevant.forEach((c, ci) => {
+    c.text
+      .split(/(?<=[.!?])\s+(?=[A-Z])/)
+      .filter((t) => t.length > 25 && !t.trim().endsWith("?"))
+      .forEach((text, si) => {
+        const toks = tokenize(text);
+        const hits = toks.filter((t) => q.has(t) || [...q].some((w) => w.length > 3 && t.startsWith(w))).length;
+        // Earlier chunks are better matches; small boost keeps their sentences first.
+        sentences.push({ text, title: c.title, score: hits + (relevant.length - ci) * 0.15, hits, order: ci * 100 + si });
+      });
+  });
+  const best = sentences
+    .filter((s) => s.hits >= 1)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 4)
+    .sort((a, b) => a.order - b.order);
+  const picked = best.length ? best : sentences.sort((a, b) => a.order - b.order).slice(0, 3);
+
+  return [
+    ...picked.map((s) => `• ${s.text}`),
+    `
+Anything else? Email ${person.email}.`,
+  ].join("\n");
+}

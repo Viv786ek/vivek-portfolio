@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { person } from "@/data/profile";
-import { retrieve, type Chunk } from "@/lib/knowledge";
+import { localAnswer, retrieve, type Chunk } from "@/lib/knowledge";
 import { clientIp, rateLimit } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
@@ -21,19 +21,6 @@ Rules:
 
 function contextBlock(chunks: Chunk[]) {
   return `<profile>\n${chunks.map((c) => `## ${c.title}\n${c.text}`).join("\n\n")}\n</profile>`;
-}
-
-/** Extractive fallback when no LLM key is configured: still useful, never hallucinates. */
-function localAnswer(question: string, chunks: Chunk[]) {
-  const top = chunks.filter((c) => c.id !== "summary").slice(0, 2);
-  const lead = chunks.find((c) => c.id === "summary");
-  const parts = [
-    `Here's what Vivek's profile says about “${question.slice(0, 120)}”:`,
-    ...top.map((c) => `**${c.title}** — ${c.text.slice(0, 420)}${c.text.length > 420 ? "…" : ""}`),
-  ];
-  if (!top.length && lead) parts.push(lead.text);
-  parts.push(`\nFor anything else, email ${person.email}.`);
-  return parts.join("\n\n");
 }
 
 function textStream(iter: AsyncIterable<string>): ReadableStream<Uint8Array> {

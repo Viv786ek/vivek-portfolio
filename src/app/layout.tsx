@@ -28,8 +28,11 @@ export const metadata: Metadata = {
     firstName: "Vivek",
     lastName: "Srivastava",
     locale: "en_US",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name} — AI Engineer & Full-Stack Engineer` }],
   },
-  twitter: { card: "summary_large_image", title: site.title, description: site.description },
+  twitter: { card: "summary_large_image", title: site.title, description: site.description, images: ["/og.png"] },
+  // Static PNGs (not generated routes) so every host, incl. GitHub Pages, serves them as image/png.
+  icons: { icon: "/icon.png", apple: "/icon.png" },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
   category: "technology",
 };

@@ -47,12 +47,35 @@ export function ChatWidget() {
     setMsgs([...history, { role: "assistant", content: "" }]);
     setInput("");
     setBusy(true);
+    // Answers in the browser from the profile — used on the static GitHub Pages
+    // build and whenever the server API is unreachable. Typed out for a chat feel.
+    const answerLocally = async () => {
+      const { retrieve, localAnswer } = await import("@/lib/knowledge");
+      const chunks = retrieve(q, 6);
+      const full = localAnswer(q, chunks);
+      const sources = chunks.map((c) => c.title);
+      const words = full.split(/(s+)/);
+      for (let i = 0; i <= words.length; i += 6) {
+        setMsgs((m) => [...m.slice(0, -1), { role: "assistant", content: words.slice(0, i).join(""), sources }]);
+        await new Promise((r) => setTimeout(r, 18));
+      }
+      setMsgs((m) => [...m.slice(0, -1), { role: "assistant", content: full, sources }]);
+    };
+
     try {
+      if (process.env.NEXT_PUBLIC_STATIC_EXPORT === "1") {
+        await answerLocally();
+        return;
+      }
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: history.slice(-8).map(({ role, content }) => ({ role, content })) }),
       });
+      if (res.status === 404 || res.status === 405) {
+        await answerLocally();
+        return;
+      }
       if (!res.ok || !res.body) {
         const err = await res.json().catch(() => ({ error: "The assistant is unavailable right now." }));
         throw new Error(err.error);

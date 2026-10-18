@@ -5,7 +5,7 @@
  */
 
 export const site = {
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://viveksrivastava.dev",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://viveksde.github.io",
   name: "Vivek Kumar Srivastava",
   shortName: "Vivek Srivastava",
   title: "Vivek Kumar Srivastava — AI Engineer & Full-Stack Engineer",
@@ -47,11 +47,13 @@ export const person = {
   resumePdf: "/Vivek_Kumar_Srivastava_Resume.pdf",
   languages: ["English (Professional)", "Hindi (Native)", "Arabic (Basic)"],
   socials: {
-    github: "https://github.com/Viv786ek",
+    github: "https://github.com/viveksde",
     linkedin: "https://www.linkedin.com/in/viveksde/",
     leetcode: "https://leetcode.com/u/Viv786ek/",
   },
-  githubUsername: "Viv786ek",
+  githubUsername: "viveksde",
+  /** Permanent account ID — API lookups use it so a username change never breaks the dashboard. */
+  githubId: 43187055,
 };
 
 export const metrics = [
@@ -385,7 +387,7 @@ export const projects: Project[] = [
     ],
     stack: ["React", "TypeScript", "Redux Toolkit", "OpenAI API", "Node.js", "PostgreSQL", "AWS Lambda", "CloudFront"],
     impact: ["Plan generation: 2–3 days → under 3 s", "+15% user retention", "95+ Lighthouse, WCAG 2.1"],
-    github: "https://github.com/Viv786ek/Personalized-Workout-Plan",
+    github: "https://github.com/viveksde/Personalized-Workout-Plan",
     featured: true,
   },
   {
@@ -443,7 +445,7 @@ export const projects: Project[] = [
     challenges: ["Keeping API keys server-side", "Handling slow generations gracefully"],
     stack: ["JavaScript", "Node.js", "Express", "OpenAI API"],
     impact: ["Early hands-on GenAI work (2023)"],
-    github: "https://github.com/Viv786ek/Image-Generator",
+    github: "https://github.com/viveksde/Image-Generator",
   },
   {
     slug: "this-portfolio",
@@ -461,7 +463,8 @@ export const projects: Project[] = [
     challenges: ["Grounding answers so the assistant never invents experience", "Keeping Lighthouse 95+ with AI features"],
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Claude API", "Vercel"],
     impact: ["Recruiters get answers in seconds", "Works without an API key via local retrieval"],
-    github: "https://github.com/Viv786ek",
+    github: "https://github.com/viveksde/viveksde.github.io",
+    live: "https://viveksde.github.io",
   },
 ];
 
@@ -563,7 +566,7 @@ export const codingProfiles = [
   { name: "LeetCode", url: "https://leetcode.com/u/Viv786ek/", stat: "3★", detail: "Daily-challenge streaks across 2020–2024" },
   { name: "GeeksforGeeks", url: "", stat: "<1800", detail: "Global rank; Problem-of-the-Day archives on GitHub" },
   { name: "Problems solved", url: "", stat: "250+", detail: "C++ and TypeScript" },
-  { name: "GitHub", url: "https://github.com/Viv786ek", stat: "160+", detail: "Public repositories since 2018" },
+  { name: "GitHub", url: "https://github.com/viveksde", stat: "160+", detail: "Public repositories since 2018" },
 ];
 
 /** Add real quotes here (with permission). The section stays hidden while empty. */

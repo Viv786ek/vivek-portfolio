@@ -1,5 +1,7 @@
 # Vivek Kumar Srivastava — Portfolio
 
+**Live:** https://viveksde.github.io
+
 AI Engineer & Full-Stack Engineer portfolio. Next.js 16 · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion · Claude API · Vercel.
 
 **Signature features**
@@ -46,18 +48,19 @@ npm run build && npm start   # production check
 ```
 portfolio/
 ├── content/blog/               Markdown posts (front-matter + body)
-├── public/                     Photo, resume PDF
+├── .github/workflows/deploy.yml  Build + deploy to GitHub Pages (push + daily)
+├── public/                     Photo, resume PDF, og.png (social preview), icon.png
+├── scripts/fix-export.mjs      Post-build fix for static-export prefetch files
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx          Fonts, metadata, JSON-LD, analytics, chat + ⌘K
 │   │   ├── page.tsx            Home: all sections
 │   │   ├── resume/             ATS resume generated from data (print → PDF)
 │   │   ├── blog/               Index + [slug] post pages
-│   │   ├── api/chat/           RAG assistant (Claude → OpenAI → local fallback)
-│   │   ├── api/contact/        Contact form → Resend (mailto fallback)
+│   │   ├── api/chat/route.api.ts     RAG assistant (server builds only)
+│   │   ├── api/contact/route.api.ts  Contact form → Resend (server builds only)
 │   │   ├── rss.xml/            RSS feed
-│   │   ├── sitemap.ts · robots.ts · manifest.ts
-│   │   └── opengraph-image.tsx · twitter-image.tsx · icon.tsx
+│   │   └── sitemap.ts · robots.ts · manifest.ts
 │   ├── components/             One file per section + shared primitives
 │   ├── data/profile.ts         ← single source of truth
 │   └── lib/
@@ -74,7 +77,7 @@ All of them are optional, and the site works with none set.
 
 | Variable | Purpose |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | Canonical URL (sitemap, OG, JSON-LD). **Set this to your domain.** |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL (sitemap, OG, JSON-LD). Defaults to https://viveksde.github.io |
 | `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | AI assistant via Claude (default model `claude-opus-5-5`, low effort) |
 | `OPENAI_API_KEY`, `OPENAI_MODEL` | Fallback provider if no Anthropic key |
 | `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | Contact form email delivery |
@@ -83,7 +86,16 @@ All of them are optional, and the site works with none set.
 
 ---
 
-## Deployment guide (GitHub → Vercel)
+## Deployment: GitHub Pages (current)
+
+The site deploys automatically to **https://viveksde.github.io** on every push to `main`, and rebuilds daily at 03:00 UTC so GitHub stats stay fresh ([workflow](.github/workflows/deploy.yml)).
+
+- The build runs `npm run build:static` (`STATIC_EXPORT=1`), which writes a fully static site to `out/`.
+- On Pages there's no server, so the AI assistant answers **in the browser**, choosing the most relevant sentences from your profile. It never invents anything. The contact form opens a pre-filled email.
+- The repo must be named `<username>.github.io` to serve at the root domain. In repo Settings → Pages, Source must be **GitHub Actions**.
+- To test locally: `npm run build:static && npx serve out`.
+
+## Alternative: Vercel (full AI with Claude)
 
 1. **Push to GitHub**
    ```bash

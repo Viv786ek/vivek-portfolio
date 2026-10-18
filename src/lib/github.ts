@@ -52,16 +52,18 @@ type ApiRepo = {
 };
 
 export async function getGitHubStats(): Promise<GitHubStats> {
-  const user = person.githubUsername;
-  const [profile, repos, contrib] = await Promise.all([
-    getJSON<{ avatar_url: string; public_repos: number; followers: number; created_at: string }>(
-      `https://api.github.com/users/${user}`,
+  const id = person.githubId;
+  const [profile, repos] = await Promise.all([
+    getJSON<{ login: string; avatar_url: string; public_repos: number; followers: number; created_at: string }>(
+      `https://api.github.com/user/${id}`,
     ),
-    getJSON<ApiRepo[]>(`https://api.github.com/users/${user}/repos?per_page=100&sort=pushed`),
-    getJSON<{ total: Record<string, number>; contributions: { date: string; count: number; level: number }[] }>(
-      `https://github-contributions-api.jogruber.de/v4/${user}?y=last`,
-    ),
+    getJSON<ApiRepo[]>(`https://api.github.com/user/${id}/repos?per_page=100&sort=pushed`),
   ]);
+  // The contributions service only accepts a login, so use the current one from the API.
+  const login = profile?.login ?? person.githubUsername;
+  const contrib = await getJSON<{ total: Record<string, number>; contributions: { date: string; count: number; level: number }[] }>(
+    `https://github-contributions-api.jogruber.de/v4/${login}?y=last`,
+  );
 
   const own = (repos ?? []).filter((r) => !r.fork);
   const toRepo = (r: ApiRepo): Repo => ({

@@ -20,6 +20,17 @@ export function Contact() {
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
     setStatus({ state: "sending" });
+    // Static hosting (GitHub Pages) has no server: open a pre-filled email instead.
+    if (process.env.NEXT_PUBLIC_STATIC_EXPORT === "1") {
+      if (data.website) return setStatus({ state: "sent" });
+      const subject = `[Portfolio] ${reason} — ${data.name}${data.company ? ` (${data.company})` : ""}`;
+      const body = `${data.message}
+
+— ${data.name} <${data.email}>`;
+      window.location.href = `mailto:${person.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      track("contact_submit", { reason, via: "mailto" });
+      return setStatus({ state: "sent", message: "Opening your email app — just press send." });
+    }
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -57,7 +68,7 @@ export function Contact() {
           {[
             { href: `mailto:${person.email}`, icon: <Mail />, label: "Email", value: person.email },
             { href: person.socials.linkedin, icon: <LinkedInIcon />, label: "LinkedIn", value: "in/viveksde" },
-            { href: person.socials.github, icon: <GitHubIcon />, label: "GitHub", value: "@Viv786ek" },
+            { href: person.socials.github, icon: <GitHubIcon />, label: "GitHub", value: "@viveksde" },
           ].map((c) => (
             <a
               key={c.label}
