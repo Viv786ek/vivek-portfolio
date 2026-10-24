@@ -133,8 +133,8 @@ export function Hero() {
             <Image
               src={person.photo}
               alt="Portrait of Vivek Kumar Srivastava"
-              width={1254}
-              height={1254}
+              width={1024}
+              height={1536}
               priority
               sizes="(min-width: 1024px) 420px, 90vw"
               className="aspect-[4/5] w-full object-cover object-top"

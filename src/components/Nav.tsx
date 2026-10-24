@@ -35,7 +35,7 @@ export function Nav() {
           <span className="grid h-7 w-7 place-items-center rounded-lg bg-fg font-mono text-[13px] font-bold text-bg transition-transform group-hover:rotate-6">
             V
           </span>
-          <span className="hidden sm:inline">Vivek Srivastava</span>
+          <span className="hidden sm:inline">Vivek Kumar Srivastava</span>
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">

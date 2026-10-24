@@ -7,7 +7,7 @@
 export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://viveksrivastavasde.github.io",
   name: "Vivek Kumar Srivastava",
-  shortName: "Vivek Srivastava",
+  shortName: "Vivek Kumar Srivastava",
   title: "Vivek Kumar Srivastava — AI Engineer & Full-Stack Engineer",
   description:
     "AI Engineer and Senior Full-Stack Engineer with 5+ years shipping production GenAI (RAG, LangGraph agents, LLM automation) and high-scale platforms serving 1M+ users. Open to roles in Europe, the UK, US, UAE and remote.",
@@ -43,7 +43,7 @@ export const person = {
   location: "India",
   availability: "Open to relocation & remote — Switzerland, Germany, Netherlands, Luxembourg, UK, US, UAE",
   email: "vivekkumarsrivastava877@gmail.com",
-  photo: "/vivek.png",
+  photo: "/vivek.webp",
   resumePdf: "/Vivek_Kumar_Srivastava_Resume.pdf",
   languages: ["English (Professional)", "Hindi (Native)", "Arabic (Basic)"],
   socials: {

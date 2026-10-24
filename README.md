@@ -39,7 +39,7 @@ npm run build && npm start   # production check
 | Projects (add `github` / `live` links) | `projects` |
 | Testimonials (section is hidden while empty) | `testimonials` |
 | Blog posts | add a `.md` file to `content/blog/` (front-matter: title, description, date, tags, draft) |
-| Photo | replace `public/vivek.png` |
+| Photo | replace `public/vivek.webp` (portrait; also regenerate `public/og.png`) |
 | Resume PDF | replace `public/Vivek_Kumar_Srivastava_Resume.pdf` |
 | Colours / fonts | tokens in `src/app/globals.css` (`@theme`) |
 
